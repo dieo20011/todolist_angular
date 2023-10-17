@@ -1,0 +1,32 @@
+.todo-container{
+    max-width: 400px;
+    margin: 0 auto;
+    h1{
+        text-align: center;
+    }
+    ul,li{
+        list-style-type: none;
+        
+    }
+}
+form {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  input {
+    flex-grow: 1;
+    padding: 5px;
+  }
+  
+  button {
+    margin-left: 5px;
+  }
+
+  .error {
+    border: 1px solid red;
+  }
+  
+  .error-text {
+    color: red;
+  }

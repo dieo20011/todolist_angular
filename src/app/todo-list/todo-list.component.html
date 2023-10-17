@@ -1,0 +1,25 @@
+<div class="todo-container">
+  <h2>Add Item</h2>
+  <form [formGroup]="todoForm" (ngSubmit)="addItem()">
+    <input type="text" placeholder="Enter a new item" formControlName="newItem" 
+    [ngClass]="{'error': todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)  }"> 
+    <div *ngIf="todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)">
+      <small *ngIf="todoForm.get('newItem')?.errors?.['required']" class="error-text">
+          Please enter a value
+      </small>
+      <small *ngIf="todoForm.get('newItem')?.errors?.['whitespace']" class="error-text">
+        Invalid input
+      </small>
+    </div>
+    <button type="submit" [disabled]="todoForm.invalid">
+      Add
+    </button>
+  </form>
+
+  <h2>Todo List</h2>
+  <ul>
+    <li *ngFor="let item of listItems">
+      <app-todo-item [title]="item" (delete)="deleteItem(item)"></app-todo-item>
+    </li>
+  </ul>
+</div>
