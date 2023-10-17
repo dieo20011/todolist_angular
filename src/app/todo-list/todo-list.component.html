@@ -20,6 +20,7 @@
   <ul>
     <li *ngFor="let item of listItems">
       <app-todo-item [title]="item" (delete)="deleteItem(item)"></app-todo-item>
+      <button type="button" (click)="editItem(item)">Edit</button>
     </li>
   </ul>
 </div>
