@@ -2,17 +2,18 @@
   <h2 class="title">Add Item</h2>
   <form [formGroup]="todoForm" (ngSubmit)="addItem()">
     <div class="input_container">
-    <input type="text" placeholder="Enter a new item" formControlName="newItem" 
-    [ngClass]="{'error': todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)  }"> 
-    <div *ngIf="todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)">
-      <small *ngIf="todoForm.get('newItem')?.errors?.['required']" class="error-text">
+      <input type="text" placeholder="Enter a new item" formControlName="newItem"
+        [ngClass]="{'error': todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)  }">
+      <div
+        *ngIf="todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)">
+        <small *ngIf="todoForm.get('newItem')?.errors?.['required']" class="error-text">
           Please enter a value
-      </small>
-      <small *ngIf="todoForm.get('newItem')?.errors?.['whitespace']" class="error-text">
-        Invalid input
-      </small>
+        </small>
+        <small *ngIf="todoForm.get('newItem')?.errors?.['whitespace']" class="error-text">
+          Invalid input
+        </small>
+      </div>
     </div>
-  </div>
     <button type="submit" [disabled]="todoForm.invalid || selectedItem !== null">
       Add
     </button>
@@ -20,7 +21,6 @@
       Update
     </button>
   </form>
-
   <h2>Todo List</h2>
   <div class="list" *ngFor="let item of listItems">
     <div class="list-item">

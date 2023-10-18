@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormBuilder,FormGroup,Validators, AbstractControl, ValidatorFn} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 
 @Component({
   selector: 'app-todo-list',
@@ -10,49 +10,49 @@ export class TodoListComponent {
   listItems: string[] = ['Clean house', 'Do Homework'];
   todoForm: FormGroup;
   selectedItem: string | null = null;
-  
-  constructor(private formBuilder: FormBuilder){
+
+  constructor(private formBuilder: FormBuilder) {
     this.todoForm = this.formBuilder.group({
-      newItem: ['',[Validators.required, this.whiteSpaceValidator]]
+      newItem: ['', [Validators.required, this.whiteSpaceValidator]]
     })
   }
-  editItem(item:string){
+  editItem(item: string) {
     this.selectedItem = item;
-    this.todoForm.patchValue({newItem: item});
+    this.todoForm.patchValue({ newItem: item });
   }
-  addItem(){
+  addItem() {
     const valueItem = this.todoForm.get('newItem');
-    if(valueItem && valueItem.valid){
+    if (valueItem && valueItem.valid) {
       const newValueItem = valueItem.value;
       this.listItems.unshift(newValueItem);
       this.todoForm.reset();
     }
   }
-  updateItem(){
+  updateItem() {
     const valueItem = this.todoForm.get('newItem');
-    if(valueItem && valueItem.valid && this.selectedItem !== null){
+    if (valueItem && valueItem.valid && this.selectedItem !== null) {
       const newValueItem = valueItem.value;
       const index = this.listItems.indexOf(this.selectedItem);
-      if(index > -1){
+      if (index > -1) {
         this.listItems[index] = newValueItem;
       }
       this.todoForm.reset();
-      this.selectedItem=null;
+      this.selectedItem = null;
     }
   }
-  deleteItem(item:string){
+  deleteItem(item: string) {
     const index = this.listItems.indexOf(item);
-    if(index > -1){
+    if (index > -1) {
       this.listItems.splice(index, 1);
     }
   }
 
-whiteSpaceValidator: ValidatorFn = (control: AbstractControl): { [key: string]: any } | null => {
+  whiteSpaceValidator: ValidatorFn = (control: AbstractControl): { [key: string]: any } | null => {
     const { value } = control;
     if (value && value.trim() === '') {
       return { whitespace: true };
     }
     return null;
   };
-  
+
 }

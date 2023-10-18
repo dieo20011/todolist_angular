@@ -1,74 +1,83 @@
-.todo-container{
-    max-width: 400px;
-    margin: 0 auto;
-    .title{
-        text-align: center;
-    }
-    ul,li{
-        list-style-type: none;
-        
-    }
-    .list {
-      display: flex;
-      align-items: center;
-      border: 1px solid gray;
-      border-left: 5px solid blue;
-      border-right: 5px solid blue;
-      margin-bottom: 5px;
-    }
-    
-    .list-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      padding: 20px;
-      font-size: 18px;
-    }
-    
-    .buttons {
-      display: flex;
-      gap: 10px;
-    }
-    .buttons button{
-      font-size: 16px;
-      padding: 8px 12px;
-    }
-    .buttons .button_edit{
-      background-color: green;
-      border: none;
-      border-radius: 5px;
-      color: white;
-    }
-    .buttons .button_delete{
-      background-color: red;
-      border: none;
-      border-radius: 5px;
-      color: white
-    }
-}
-form {
-    display: flex;
-    margin-bottom: 10px;
-  }
-  
-  input {
-    padding: 5px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .input_container{
-    flex-grow: 1;
-  }
-  button {
-    margin-left: 5px;
-    z-index: 1000;
+.todo-container {
+  max-width: 400px;
+  margin: 0 auto;
+
+  .title {
+    text-align: center;
   }
 
-  .error {
-    border: 1px solid red;
+  ul,
+  li {
+    list-style-type: none;
   }
-  
-  .error-text {
-    color: red;
+
+  .list {
+    display: flex;
+    align-items: center;
+    border: 1px solid gray;
+    border-left: 5px solid blue;
+    border-right: 5px solid blue;
+    margin-bottom: 5px;
   }
+
+  .list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    font-size: 18px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .buttons button {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+
+  .buttons .button_edit {
+    background-color: green;
+    border: none;
+    border-radius: 5px;
+    color: white;
+  }
+
+  .buttons .button_delete {
+    background-color: red;
+    border: none;
+    border-radius: 5px;
+    color: white;
+  }
+}
+
+form {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+input {
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input_container {
+  flex-grow: 1;
+}
+
+button {
+  margin-left: 5px;
+  z-index: 1000;
+}
+
+.error {
+  border: 1px solid red;
+}
+
+.error-text {
+  color: red;
+}
