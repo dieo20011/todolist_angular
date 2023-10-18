@@ -28,7 +28,18 @@ export class TodoListComponent {
       this.todoForm.reset();
     }
   }
-
+  updateItem(){
+    const valueItem = this.todoForm.get('newItem');
+    if(valueItem && valueItem.valid && this.selectedItem !== null){
+      const newValueItem = valueItem.value;
+      const index = this.listItems.indexOf(this.selectedItem);
+      if(index > -1){
+        this.listItems[index] = newValueItem;
+      }
+      this.todoForm.reset();
+      this.selectedItem=null;
+    }
+  }
   deleteItem(item:string){
     const index = this.listItems.indexOf(item);
     if(index > -1){

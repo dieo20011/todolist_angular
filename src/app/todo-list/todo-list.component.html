@@ -1,6 +1,7 @@
 <div class="todo-container">
-  <h2>Add Item</h2>
+  <h2 class="title">Add Item</h2>
   <form [formGroup]="todoForm" (ngSubmit)="addItem()">
+    <div class="input_container">
     <input type="text" placeholder="Enter a new item" formControlName="newItem" 
     [ngClass]="{'error': todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)  }"> 
     <div *ngIf="todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)">
@@ -11,16 +12,23 @@
         Invalid input
       </small>
     </div>
-    <button type="submit" [disabled]="todoForm.invalid">
+  </div>
+    <button type="submit" [disabled]="todoForm.invalid || selectedItem !== null">
       Add
+    </button>
+    <button type="submit" (click)="updateItem()" [disabled]="todoForm.invalid || selectedItem === null">
+      Update
     </button>
   </form>
 
   <h2>Todo List</h2>
-  <ul>
-    <li *ngFor="let item of listItems">
-      <app-todo-item [title]="item" (delete)="deleteItem(item)"></app-todo-item>
-      <button type="button" (click)="editItem(item)">Edit</button>
-    </li>
-  </ul>
+  <div class="list" *ngFor="let item of listItems">
+    <div class="list-item">
+      <app-todo-item [title]="item"></app-todo-item>
+      <div class="buttons">
+        <button type="button" (click)="editItem(item)" class="button_edit">Edit</button>
+        <button type="button" (click)="deleteItem(item)" class="button_delete">Delete</button>
+      </div>
+    </div>
+  </div>
 </div>
