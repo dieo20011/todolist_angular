@@ -1,3 +1,20 @@
-<div class="todo_item">
-    <span class="title">{{title}}</span>
-</div>
+<form [formGroup]="todoForm" (ngSubmit)="addItems()">
+  <mat-form-field class="example-full-width">
+    <input matInput type="text" placeholder="Enter a new item" formControlName="newItem"
+      [ngClass]="{'error': todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty) }">
+    <mat-error *ngIf="todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)">
+      <small *ngIf="todoForm.get('newItem')?.errors?.['required']" class="error-text">
+        Please enter a value
+      </small>
+      <small *ngIf="todoForm.get('newItem')?.errors?.['whitespace']" class="error-text">
+        Invalid input
+      </small>
+    </mat-error>
+  </mat-form-field>
+  <div class="button_input">
+    <button mat-raised-button color="primary" type="submit" [disabled]="todoForm.invalid || selectedItem !== null">
+      Add
+    </button>
+    <button mat-raised-button color="accent" (click)="goBack()">Cancel</button>
+  </div>
+</form>

@@ -1,34 +1,28 @@
 <div class="todo-container">
   <h2 class="title">Add Item</h2>
-  <form [formGroup]="todoForm" (ngSubmit)="addItem()">
-    <div class="input_container">
-      <input type="text" placeholder="Enter a new item" formControlName="newItem"
-        [ngClass]="{'error': todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)  }">
-      <div
-        *ngIf="todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)">
-        <small *ngIf="todoForm.get('newItem')?.errors?.['required']" class="error-text">
-          Please enter a value
-        </small>
-        <small *ngIf="todoForm.get('newItem')?.errors?.['whitespace']" class="error-text">
-          Invalid input
-        </small>
-      </div>
-    </div>
-    <button type="submit" [disabled]="todoForm.invalid || selectedItem !== null">
-      Add
-    </button>
-    <button type="submit" (click)="updateItem()" [disabled]="todoForm.invalid || selectedItem === null">
-      Update
-    </button>
-  </form>
+  <button mat-raised-button color="primary" type="submit" routerLink="/add">
+    Add
+  </button>
   <h2>Todo List</h2>
-  <div class="list" *ngFor="let item of listItems">
-    <div class="list-item">
-      <app-todo-item [title]="item"></app-todo-item>
-      <div class="buttons">
-        <button type="button" (click)="editItem(item)" class="button_edit">Edit</button>
-        <button type="button" (click)="deleteItem(item)" class="button_delete">Delete</button>
-      </div>
-    </div>
-  </div>
+  <table mat-table class="mat-elevation-z8 demo-table" [dataSource]="dataSource">
+    <ng-container matColumnDef="value">
+      <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+      <mat-cell *matCellDef="let item">{{ item.value }}</mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="createdAt">
+      <mat-header-cell *matHeaderCellDef>CreatedOn</mat-header-cell>
+      <mat-cell *matCellDef="let item">{{ item.createdAt | date }}</mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let item" class="button_group">
+        <button mat-mini-fab color="warn" (click)="deleteItem(item)" class="button_delete"><mat-icon>delete</mat-icon></button>
+      </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="['value', 'createdAt', 'actions']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['value', 'createdAt', 'actions']"></mat-row>
+  </table>
 </div>

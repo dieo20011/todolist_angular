@@ -1,58 +1,44 @@
-import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.scss']
+  styleUrls: ['./todo-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoListComponent {
-  listItems: string[] = ['Clean house', 'Do Homework'];
-  todoForm: FormGroup;
-  selectedItem: string | null = null;
+  listItems: { value: string, createdAt: Date }[] = [
+    { value: 'Clean house', createdAt: new Date() },
+    { value: 'Do Homework', createdAt: new Date() }
+  ];
 
-  constructor(private formBuilder: FormBuilder) {
+  dataSource: MatTableDataSource<{ value: string, createdAt: Date }>;
+  todoForm: FormGroup;
+  selectedItemIndex: number | null = null;
+
+  constructor(private formBuilder: FormBuilder, private router: Router) {
     this.todoForm = this.formBuilder.group({
-      newItem: ['', [Validators.required, this.whiteSpaceValidator]]
-    })
+      newItem: ['', [Validators.required]]
+    });
+    this.dataSource = new MatTableDataSource(this.listItems);
   }
-  editItem(item: string) {
-    this.selectedItem = item;
-    this.todoForm.patchValue({ newItem: item });
+  addItem(newItem: { value: string, createdAt: Date }) {
+    console.log(newItem)
+    this.listItems.unshift(newItem);
+    this.dataSource.data = this.listItems.slice();
   }
-  addItem() {
-    const valueItem = this.todoForm.get('newItem');
-    if (valueItem && valueItem.valid) {
-      const newValueItem = valueItem.value;
-      this.listItems.unshift(newValueItem);
-      this.todoForm.reset();
-    }
-  }
-  updateItem() {
-    const valueItem = this.todoForm.get('newItem');
-    if (valueItem && valueItem.valid && this.selectedItem !== null) {
-      const newValueItem = valueItem.value;
-      const index = this.listItems.indexOf(this.selectedItem);
-      if (index > -1) {
-        this.listItems[index] = newValueItem;
-      }
-      this.todoForm.reset();
-      this.selectedItem = null;
-    }
-  }
-  deleteItem(item: string) {
-    const index = this.listItems.indexOf(item);
+
+
+  deleteItem(item: { value: string, createdAt: Date }) {
+    const index = this.listItems.findIndex(listItem => listItem.value === item.value);
     if (index > -1) {
       this.listItems.splice(index, 1);
+      this.dataSource.data = this.listItems.slice();
     }
   }
-
-  whiteSpaceValidator: ValidatorFn = (control: AbstractControl): { [key: string]: any } | null => {
-    const { value } = control;
-    if (value && value.trim() === '') {
-      return { whitespace: true };
-    }
-    return null;
-  };
 
 }
