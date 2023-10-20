@@ -1,8 +1,9 @@
-import { Router } from '@angular/router';
+import { Router, Params } from '@angular/router';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { ActivatedRoute } from '@angular/router';
+import { FAKE_DATA } from '../data.const';
 
 @Component({
   selector: 'app-todo-list',
@@ -11,25 +12,42 @@ import { MatTableDataSource } from '@angular/material/table';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoListComponent {
-  listItems: { value: string, createdAt: Date }[] = [
-    { value: 'Clean house', createdAt: new Date() },
-    { value: 'Do Homework', createdAt: new Date() }
-  ];
+  listItems: { value: string, createdAt: Date }[] = FAKE_DATA;
 
   dataSource: MatTableDataSource<{ value: string, createdAt: Date }>;
   todoForm: FormGroup;
   selectedItemIndex: number | null = null;
+  searchText: string = '';
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router) {
     this.todoForm = this.formBuilder.group({
       newItem: ['', [Validators.required]]
     });
     this.dataSource = new MatTableDataSource(this.listItems);
   }
-  addItem(newItem: { value: string, createdAt: Date }) {
-    console.log(newItem)
-    this.listItems.unshift(newItem);
-    this.dataSource.data = this.listItems.slice();
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      const value = params['value'];
+      const createdAt = params['createdAt'];
+      if (value && createdAt) {
+        const newItem = {
+          value: value,
+          createdAt: new Date(createdAt)
+        };
+        // Thêm newItem vào FAKE_DATA
+        FAKE_DATA.unshift(newItem);
+        this.clearQueryParams()
+      }
+    });
+    this.todoForm.get('newItem')?.valueChanges.subscribe(value=>{
+      this.searchText = value;
+      this.applyFilter();
+    })
+  }
+
+  applyFilter() {
+    const filterValue = this.searchText.toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
 
@@ -38,7 +56,12 @@ export class TodoListComponent {
     if (index > -1) {
       this.listItems.splice(index, 1);
       this.dataSource.data = this.listItems.slice();
+      this.clearQueryParams()
     }
   }
 
+  clearQueryParams() {
+    const queryParams: Params = { value: null, createdAt: null };
+    this.router.navigate([], { queryParams });
+  }
 }

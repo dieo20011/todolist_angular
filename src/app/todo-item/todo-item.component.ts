@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, Params } from '@angular/router';
 @Component({
   selector: 'app-todo-item',
   templateUrl: './todo-item.component.html',
@@ -36,13 +36,17 @@ export class TodoItemComponent {
         value: this.todoForm.get('newItem')?.value,
         createdAt: new Date()
       };
+      // Tạo một đối tượng Params và đưa dữ liệu vào nó
+      const params: Params = {
+        value: newItem.value,
+        createdAt: newItem.createdAt.toISOString()
+      };
+      // Đưa dữ liệu vào URL sử dụng Router
+      this.router.navigate(['/list'], { queryParams: params });
       this.addItem.emit(newItem);
-      console.log(newItem)
       this.todoForm.reset();
-      this.router.navigate(['/list']);
     }
   }
-  
   goBack(): void {
     this.location.back();
   }
