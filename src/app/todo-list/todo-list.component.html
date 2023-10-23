@@ -1,28 +1,36 @@
 <div class="todo-container">
   <div class="header">
-    <input matInput placeholder="Enter titler" [(ngModel)]="searchText" (keydown)="applyFilter()">
-    <button mat-mini-fab color="primary" type="submit" >
+    <input matInput placeholder="Enter titler" [(ngModel)]="searchText" >
+    <button mat-mini-fab color="primary" type="submit" (click)="applyFilter()">
       <mat-icon>search</mat-icon>
     </button>
     <button mat-mini-fab color="primary" type="submit" routerLink="/add">
       <mat-icon>add</mat-icon>
     </button>
   </div>
+  <mat-form-field>
+    <mat-label>Select Language</mat-label>
+    <mat-select (selectionChange)="onLanguageChange($event.value)" [value]="'English'">
+      <mat-option *ngFor="let language of languages" [value]="language.value">
+        {{ language.value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   <table mat-table class="mat-elevation-z8 demo-table" [dataSource]="dataSource"  >
     <ng-container matColumnDef="value">
-      <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{'TODO_LIST.Title' | translate}}</mat-header-cell>
       <mat-cell *matCellDef="let item">{{ item.value }}</mat-cell>
     </ng-container>
   
     <ng-container matColumnDef="createdAt">
-      <mat-header-cell *matHeaderCellDef>Created On</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{'TODO_LIST.CreatedOn' | translate}}</mat-header-cell>
       <mat-cell *matCellDef="let item">{{ item.createdAt | date }}</mat-cell>
     </ng-container>
   
     <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-      <mat-cell *matCellDef="let item" class="button_group">
-        <button mat-mini-fab color="primary" class="button_edit"><mat-icon>edit</mat-icon></button>
+      <mat-header-cell *matHeaderCellDef>{{'TODO_LIST.Actions' | translate}}</mat-header-cell>
+      <mat-cell *matCellDef="let item ; let i = index"  class="button_group">
+        <button mat-mini-fab color="primary" class="button_edit" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
         <button mat-mini-fab color="warn" (click)="deleteItem(item)" class="button_delete"><mat-icon>delete</mat-icon></button>
       </mat-cell>
     </ng-container>

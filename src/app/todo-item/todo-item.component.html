@@ -1,9 +1,9 @@
 <div class="todo-container">
   <h1 class="title">TODO</h1>
-  <form [formGroup]="todoForm" (ngSubmit)="addItems()">
+  <form [formGroup]="todoForm" >
     <mat-form-field class="example-full-width">
       <input matInput class="input_todo" type="text" placeholder="Enter a new item" formControlName="newItem"
-        [ngClass]="{'error': todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty) }">
+      [ngClass]="{'error': todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty) }" />
       <mat-error *ngIf="todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)">
         <small *ngIf="todoForm.get('newItem')?.errors?.['required']" class="error-text">
           Please enter a value
@@ -14,8 +14,11 @@
       </mat-error>
     </mat-form-field>
     <div class="button_input">
-      <button mat-raised-button color="primary" type="submit" [disabled]="todoForm.invalid || selectedItem !== null" >
+      <button mat-raised-button color="primary" type="button" (click)="addItems()" [disabled]="todoForm.invalid " *ngIf="!isUpdating" >
         Add
+      </button>
+      <button mat-raised-button color="primary" (click)="updateItem()" type="button" [disabled]="todoForm.invalid"  *ngIf="isUpdating" >
+        Update
       </button>
       <button mat-raised-button color="accent" type="button" (click)="goBack()">Cancel</button>
     </div>
