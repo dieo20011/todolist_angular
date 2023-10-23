@@ -16,6 +16,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {MatSelectModule} from '@angular/material/select';
+import { LocalStorageService } from './local-storage.service';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -48,9 +49,9 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       },
       defaultLanguage: 'en'
-    })
+    }),
   ],
-  providers: [],
+  providers: [LocalStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

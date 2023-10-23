@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FAKE_DATA } from '../data.const';
 import { map } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalStorageService } from '../local-storage.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-todo-list',
@@ -15,10 +17,14 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class TodoListComponent {
   listItems: { value: string, createdAt: Date }[] = FAKE_DATA;
-  languages: { value: string }[] = [{ value: 'English' }, { value: 'Vietnamese' }];
+  languages: { key: string, value: string }[] = [
+    { key: 'en', value: 'English' },
+    { key: 'vi', value: 'Vietnamese' }
+  ];
   dataSource: MatTableDataSource<{ value: string, createdAt: Date }>;
   todoForm: FormGroup;
   selectedItemIndex: number | null = null;
+  selectedLanguage: string = '';  
   searchText: string = '';
   index: number = 0;
   moment: any;
@@ -28,15 +34,19 @@ export class TodoListComponent {
     private route: ActivatedRoute,
     private router: Router,
     private translate: TranslateService,
+    private localStorageService: LocalStorageService
   ) {
     this.todoForm = this.formBuilder.group({
       newItem: ['', [Validators.required]]
     });
     this.dataSource = new MatTableDataSource(this.listItems);
+
+    
+    
   }
 
   ngOnInit() {
-    // for add feature
+    //For add feature
     this.route.queryParams.subscribe(params => {
       const value = params['value'];
       const createdAt = params['createdAt'];
@@ -50,7 +60,7 @@ export class TodoListComponent {
         this.clearQueryParams();
       }
     });
-
+    // For update feature
     this.route.queryParams.subscribe(params => {
       const index = params['index'];
       const value = params['value'];
@@ -58,7 +68,7 @@ export class TodoListComponent {
         this.updateItem(Number(index), value);
         this.clearQueryParams();
       }
-    }); 
+    });
     // for search feature
     this.todoForm.get('newItem')?.valueChanges.subscribe(value => {
       this.searchText = value;
@@ -67,11 +77,24 @@ export class TodoListComponent {
     // for translate feature
     this.translate.setDefaultLang('en');
     this.translate.use('en');
+    const savedLanguage = this.localStorageService.get('language');
+    if (savedLanguage) {
+      this.selectedLanguage = savedLanguage;
+      this.translate.setDefaultLang(savedLanguage);
+      this.translate.use(savedLanguage);
+      console.log(this.selectedLanguage)
+    }
   }
-
-  changeLanguage(lang: string) {
-    this.translate.use(lang);
+  //push value to /edit
+  editItem(item: { value: string, createdAt: Date }) {
+    const index = this.listItems.findIndex(listItem => listItem.value === item.value);
+    if (index > -1) {
+      const queryParams = { item: item.value };
+      this.router.navigate(['/edit', index], { queryParams });
+      console.log(item);
+    }
   }
+  //update Item in list
   updateItem(index: number, value: string) {
     const foundItem = this.listItems[index];
     if (foundItem) {
@@ -79,34 +102,30 @@ export class TodoListComponent {
       this.dataSource.data = this.listItems;
     }
   }
+  //Feature: Change Language
   onLanguageChange(lang: string) {
-    if (lang === 'English') {
-      this.changeLanguage('en');
-    } else if (lang === 'Vietnamese') {
-      this.changeLanguage('vi');
+    const selectedLanguage = this.languages.find(language => language.key === lang);
+    if (selectedLanguage) {
+      this.changeLanguage(selectedLanguage.key);
     }
   }
-
+  changeLanguage(lang: string) {
+    this.translate.setDefaultLang(lang);
+    this.translate.use(lang);
+    this.localStorageService.set('language', lang);
+  }
   //search
   applyFilter() {
     const filterValue = this.searchText.toLowerCase();
     this.dataSource.filter = filterValue;
   }
 
-  //delete
+  //delete with index
   deleteItem(item: { value: string, createdAt: Date }) {
     const index = this.listItems.findIndex(listItem => listItem.value === item.value);
     if (index > -1) {
-      this.listItems.splice(index,1);
+      this.listItems.splice(index, 1);
       this.dataSource.data = this.listItems;
-    }
-  }
-    editItem(item: { value: string, createdAt: Date }) {
-    const index = this.listItems.findIndex(listItem => listItem.value === item.value);
-    if (index > -1) {
-      const queryParams = { item: item.value };
-      this.router.navigate(['/edit', index], { queryParams });
-      console.log(item);
     }
   }
   //clear query url

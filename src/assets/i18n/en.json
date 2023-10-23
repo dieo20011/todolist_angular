@@ -2,6 +2,13 @@
   "TODO_LIST": {
     "Title": "Title",
     "CreatedOn": "Created On",
-    "Actions": "Actions"
+    "Actions": "Actions",
+    "Add": "Add",
+    "Cancel": "Cancel",
+    "Update": "Update",
+    "TODO": "TODO",
+    "ADD": "Add",
+    "CANCEL": "Cancel",
+    "UPDATE": "Update"
   }
 }

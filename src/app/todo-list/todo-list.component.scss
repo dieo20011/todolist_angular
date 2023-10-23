@@ -23,7 +23,28 @@
   align-items: center;
   margin-bottom: 20px;
 }
+.language,
+.header {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
 
+.language {
+  margin-bottom: 10px;
+}
+
+.header {
+  margin-top: 5px;
+}
+
+.mat-form-field {
+  margin-right: 10px;
+}
+
+.mat-mini-fab {
+  margin-right: 5px;
+}
 .header input {
   flex: 1;
   height: 36px;

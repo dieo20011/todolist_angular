@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Vali
 import { MatTableDataSource } from '@angular/material/table';
 import { Location } from '@angular/common';
 import { Router, Params, ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-todo-item',
@@ -11,7 +12,8 @@ import { map } from 'rxjs/operators';
 })
 export class TodoItemComponent {
   @Input() createdAt: Date | null = null;
-  @Input() index: number = 0; 
+  @Input() index: number = 0;
+  @Input() selectedLanguage: string = ''; 
   @Output() addItem: EventEmitter<{ value: string, createdAt: Date }> = new EventEmitter<{ value: string, createdAt: Date }>();
   @Output() updateItems: EventEmitter<{ index: number, value: string }> = new EventEmitter();
 
@@ -24,7 +26,7 @@ export class TodoItemComponent {
   todoForm: FormGroup;
   selectedItem: string | null = null;
 
-  constructor(private formBuilder: FormBuilder, private location: Location, private router: Router, private route: ActivatedRoute) {
+  constructor(private formBuilder: FormBuilder, private location: Location, private router: Router, private route: ActivatedRoute,  private translate: TranslateService) {
     this.todoForm = this.formBuilder.group({
       newItem: ['', [Validators.required, this.whiteSpaceValidator]]
     });
@@ -45,8 +47,12 @@ export class TodoItemComponent {
         this.isUpdating = true; 
       }
     });
+    if (this.selectedLanguage) {
+      this.translate.setDefaultLang(this.selectedLanguage);
+      this.translate.use(this.selectedLanguage);
+    }
   }
-
+  //addItem 
   addItems() {
     if (this.todoForm?.valid) {
       const newItem = {
@@ -68,7 +74,7 @@ export class TodoItemComponent {
       value: this.todoForm.get('newItem')?.value,
     };
   }
-
+  //updateItem push queryParams to list and display it on URL
   updateItem() {
     const updatedItem = this.getUpdatedItem();
     const queryParams = {
@@ -80,16 +86,16 @@ export class TodoItemComponent {
     console.log(queryParams);
     this.router.navigate(['/list'], { queryParams });
   }
-  
+  //clear query URL
   clearQueryParams() {
     const queryParams: Params = { value: null, createdAt: null };
     this.router.navigate([], { queryParams });
   }
-
+  //back to previous URL
   goBack(): void {
     this.location.back();
   }
-
+  //check whitespace
   whiteSpaceValidator: ValidatorFn = (control: AbstractControl): { [key: string]: any } | null => {
     const { value } = control;
     if (value && value.trim() === '') {

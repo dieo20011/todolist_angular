@@ -2,6 +2,13 @@
     "TODO_LIST": {
       "Title": "Tiêu đề",
       "CreatedOn": "Được tạo vào",
-      "Actions": "Những hành động"
+      "Actions": "Những hành động",
+      "Add": "Thêm",
+      "Cancel": "Hủy",
+      "Update": "Cập nhật",
+      "TODO": "Cần làm",
+      "ADD": "Thêm",
+      "CANCEL": "Hủy",
+      "UPDATE": "Cập nhật"
     }
   }

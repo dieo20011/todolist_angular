@@ -1,4 +1,14 @@
 <div class="todo-container">
+  <div class="language">
+    <mat-form-field>
+      <mat-label>Select Language</mat-label>
+      <mat-select (selectionChange)="onLanguageChange($event.value)" [value]="selectedLanguage">
+        <mat-option *ngFor="let language of languages" [value]="language.key">
+          {{ language.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <div class="header">
     <input matInput placeholder="Enter titler" [(ngModel)]="searchText" >
     <button mat-mini-fab color="primary" type="submit" (click)="applyFilter()">
@@ -8,14 +18,7 @@
       <mat-icon>add</mat-icon>
     </button>
   </div>
-  <mat-form-field>
-    <mat-label>Select Language</mat-label>
-    <mat-select (selectionChange)="onLanguageChange($event.value)" [value]="'English'">
-      <mat-option *ngFor="let language of languages" [value]="language.value">
-        {{ language.value }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+ 
   <table mat-table class="mat-elevation-z8 demo-table" [dataSource]="dataSource"  >
     <ng-container matColumnDef="value">
       <mat-header-cell *matHeaderCellDef>{{'TODO_LIST.Title' | translate}}</mat-header-cell>
