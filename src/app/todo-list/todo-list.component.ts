@@ -22,6 +22,7 @@ export class TodoListComponent {
     { key: 'vi', value: 'Vietnamese' }
   ];
   dataSource: MatTableDataSource<{ value: string, createdAt: Date }>;
+  
   todoForm: FormGroup;
   selectedItemIndex: number | null = null;
   selectedLanguage: string = '';  
@@ -40,11 +41,8 @@ export class TodoListComponent {
       newItem: ['', [Validators.required]]
     });
     this.dataSource = new MatTableDataSource(this.listItems);
-
-    
-    
   }
-
+  
   ngOnInit() {
     //For add feature
     this.route.queryParams.subscribe(params => {

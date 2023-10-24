@@ -11,10 +11,10 @@
   </div>
   <div class="header">
     <input matInput placeholder="Enter titler" [(ngModel)]="searchText" >
-    <button mat-mini-fab color="primary" type="submit" (click)="applyFilter()">
+    <button mat-mini-fab color="primary" type="submit" (click)="applyFilter()" *rolesAllowed="['search']">
       <mat-icon>search</mat-icon>
     </button>
-    <button mat-mini-fab color="primary" type="submit" routerLink="/add">
+    <button mat-mini-fab color="primary" type="submit" routerLink="/add" *rolesAllowed="['add']">
       <mat-icon>add</mat-icon>
     </button>
   </div>
@@ -33,8 +33,8 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef>{{'TODO_LIST.Actions' | translate}}</mat-header-cell>
       <mat-cell *matCellDef="let item ; let i = index"  class="button_group">
-        <button mat-mini-fab color="primary" class="button_edit" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
-        <button mat-mini-fab color="warn" (click)="deleteItem(item)" class="button_delete"><mat-icon>delete</mat-icon></button>
+        <button *rolesAllowed="['edit']" mat-mini-fab color="primary" class="button_edit" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
+        <button *rolesAllowed="['delete']"  mat-mini-fab color="warn" (click)="deleteItem(item)" class="button_delete"><mat-icon>delete</mat-icon></button>
       </mat-cell>
     </ng-container>
   

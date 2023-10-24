@@ -8,7 +8,7 @@ const routes: Routes =[
   {path: 'list', component: TodoListComponent},
   {path: '', redirectTo: '/list', pathMatch: 'full'},// default route when starting web
   {path: 'add', component: TodoItemComponent},
-  {path: 'edit/:index', component: TodoItemComponent}
+  {path: 'edit/:index', component: TodoItemComponent},
 ]
 
 @NgModule({

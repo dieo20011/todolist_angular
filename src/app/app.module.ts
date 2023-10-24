@@ -17,6 +17,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {MatSelectModule} from '@angular/material/select';
 import { LocalStorageService } from './local-storage.service';
+import { RolesPermissionDirective } from './roles-permission.directive';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -27,7 +28,8 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [
     AppComponent,
     TodoListComponent,
-    TodoItemComponent
+    TodoItemComponent,
+    RolesPermissionDirective
   ],
   imports: [
     BrowserModule,
