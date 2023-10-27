@@ -27,7 +27,7 @@
   
     <ng-container matColumnDef="createdAt">
       <mat-header-cell *matHeaderCellDef>{{'TODO_LIST.CreatedOn' | translate}}</mat-header-cell>
-      <mat-cell *matCellDef="let item">{{ item.createdAt | date }}</mat-cell>
+      <mat-cell *matCellDef="let item">{{ item.createdAt | date: 'MM-dd-yyyy HH:mm' }}</mat-cell>
     </ng-container>
   
     <ng-container matColumnDef="actions">

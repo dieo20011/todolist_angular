@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { FAKE_DATA } from '../data.const';
-import { map } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '../local-storage.service';
 import * as moment from 'moment';
@@ -16,7 +15,10 @@ import * as moment from 'moment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoListComponent {
-  listItems: { value: string, createdAt: Date }[] = FAKE_DATA;
+  listItems: { value: string, createdAt: Date }[] = FAKE_DATA.map(item => ({
+    value: item.value,
+    createdAt: moment(item.createdAt).toDate()
+  }));
   languages: { key: string, value: string }[] = [
     { key: 'en', value: 'English' },
     { key: 'vi', value: 'Vietnamese' }
@@ -82,6 +84,7 @@ export class TodoListComponent {
       this.translate.use(savedLanguage);
       console.log(this.selectedLanguage)
     }
+    
   }
   //push value to /edit
   editItem(item: { value: string, createdAt: Date }) {
