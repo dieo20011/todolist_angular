@@ -29,7 +29,7 @@ export function createTranslateLoader(http: HttpClient) {
     AppComponent,
     TodoListComponent,
     TodoItemComponent,
-    RolesPermissionDirective
+    RolesPermissionDirective,
   ],
   imports: [
     BrowserModule,

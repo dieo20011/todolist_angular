@@ -5,7 +5,6 @@ import { Injectable } from "@angular/core";
 })
 export class LocalStorageService {
   constructor() {
-    // Các phương thức và logic của service
   }
 
   set(lang: string, value: string): void {

@@ -13,8 +13,7 @@ export class RolesPermissionDirective {
       }else{
         this.viewcontainerref.clear;
       }
-
-  }
+    }
   private checkRolesAllowed(): boolean {
     const userRoles = currentUser.roles;
     return this.rolesAllowed.some(role => userRoles.includes(role));
