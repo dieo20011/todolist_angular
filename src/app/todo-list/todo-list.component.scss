@@ -86,4 +86,16 @@ table mat-row:last-child{
 ng-container{
   background-color: red;
 }
-
+.user-info{
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  span{
+    border: 1px solid green;
+    background-color: transparent;
+    padding: 10px 10px;
+    border-radius: 10px;
+    color: white;
+  }
+}

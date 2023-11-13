@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
@@ -18,7 +17,10 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {MatSelectModule} from '@angular/material/select';
 import { LocalStorageService } from './local-storage.service';
 import { RolesPermissionDirective } from './roles-permission.directive';
-
+import { LoginPageComponent } from './login-page/login-page.component';
+import { RegisterPageComponent } from './register-page/register-page.component';
+import { ToastrModule } from 'ngx-toastr';
+import { UserService } from './user.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -30,6 +32,8 @@ export function createTranslateLoader(http: HttpClient) {
     TodoListComponent,
     TodoItemComponent,
     RolesPermissionDirective,
+    LoginPageComponent,
+    RegisterPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +48,10 @@ export function createTranslateLoader(http: HttpClient) {
     MatIconModule,
     HttpClientModule,
     MatSelectModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right', // Set the position of the notifications
+      closeButton: true, // Show a close button on each notification
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -53,7 +61,7 @@ export function createTranslateLoader(http: HttpClient) {
       defaultLanguage: 'en'
     }),
   ],
-  providers: [LocalStorageService],
+  providers: [LocalStorageService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

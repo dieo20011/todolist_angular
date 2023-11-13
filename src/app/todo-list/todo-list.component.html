@@ -1,6 +1,14 @@
+<body>
+<div class="user-info">
+  <span *ngIf="getUserData()">Welcome, {{ getUserData().username }}</span>
+  <hr>
+  <button mat-icon-button color="primary" (click)="logout()" *ngIf="getUserData()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</div>
 <div class="todo-container">
   <div class="language">
-    <mat-form-field>
+    <mat-form-field *rolesAllowed="['changeLanguage']">
       <mat-label>Select Language</mat-label>
       <mat-select (selectionChange)="onLanguageChange($event.value)" [value]="selectedLanguage">
         <mat-option *ngFor="let language of languages" [value]="language.key">
@@ -10,7 +18,7 @@
     </mat-form-field>
   </div>
   <div class="header">
-    <input matInput placeholder="Enter titler" [(ngModel)]="searchText" >
+    <input matInput placeholder="Enter titler" [(ngModel)]="searchText" *rolesAllowed="['search']">
     <button mat-mini-fab color="primary" type="submit" (click)="applyFilter()" *rolesAllowed="['search']">
       <mat-icon>search</mat-icon>
     </button>
@@ -42,3 +50,4 @@
     <mat-row *matRowDef="let row; columns: ['value', 'createdAt', 'actions']"></mat-row>
   </table>
 </div>
+</body>

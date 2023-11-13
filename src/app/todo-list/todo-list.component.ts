@@ -1,33 +1,40 @@
 import { Router, Params } from '@angular/router';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { FAKE_DATA } from '../data.const';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalStorageService } from '../local-storage.service';
 import * as moment from 'moment';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodoListComponent {
-  listItems: { value: string, createdAt: Date }[] = FAKE_DATA.map(item => ({
+  listItems: { value: string; createdAt: Date }[] = FAKE_DATA.map((item) => ({
     value: item.value,
-    createdAt: moment(item.createdAt).toDate()
+    createdAt: moment(item.createdAt).toDate(),
   }));
-  languages: { key: string, value: string }[] = [
+  dataSource: MatTableDataSource<{ value: string; createdAt: Date }>;
+
+  languages: { key: string; value: string }[] = [
     { key: 'en', value: 'English' },
-    { key: 'vi', value: 'Vietnamese' }
+    { key: 'vi', value: 'Vietnamese' },
   ];
-  dataSource: MatTableDataSource<{ value: string, createdAt: Date }>;
-  
+
   todoForm: FormGroup;
   selectedItemIndex: number | null = null;
-  selectedLanguage: string = '';  
+  selectedLanguage: string = '';
   searchText: string = '';
   index: number = 0;
   moment: any;
@@ -37,23 +44,24 @@ export class TodoListComponent {
     private route: ActivatedRoute,
     private router: Router,
     private translate: TranslateService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private userService: UserService
   ) {
     this.todoForm = this.formBuilder.group({
-      newItem: ['', [Validators.required]]
+      newItem: ['', [Validators.required]],
     });
     this.dataSource = new MatTableDataSource(this.listItems);
   }
-  
+
   ngOnInit() {
     //For add feature
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       const value = params['value'];
       const createdAt = params['createdAt'];
       if (value && createdAt) {
         const newItem = {
           value: value,
-          createdAt: new Date(createdAt)
+          createdAt: new Date(createdAt),
         };
         // Thêm newItem vào FAKE_DATA
         FAKE_DATA.unshift(newItem);
@@ -61,7 +69,7 @@ export class TodoListComponent {
       }
     });
     // For update feature
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       const index = params['index'];
       const value = params['value'];
       if (index && value) {
@@ -70,7 +78,7 @@ export class TodoListComponent {
       }
     });
     // for search feature
-    this.todoForm.get('newItem')?.valueChanges.subscribe(value => {
+    this.todoForm.get('newItem')?.valueChanges.subscribe((value) => {
       this.searchText = value;
       this.applyFilter();
     });
@@ -82,13 +90,14 @@ export class TodoListComponent {
       this.selectedLanguage = savedLanguage;
       this.translate.setDefaultLang(savedLanguage);
       this.translate.use(savedLanguage);
-      console.log(this.selectedLanguage)
+      console.log(this.selectedLanguage);
     }
-    
   }
   //push value to /edit
-  editItem(item: { value: string, createdAt: Date }) {
-    const index = this.listItems.findIndex(listItem => listItem.value === item.value);
+  editItem(item: { value: string; createdAt: Date }) {
+    const index = this.listItems.findIndex(
+      (listItem) => listItem.value === item.value
+    );
     if (index > -1) {
       const queryParams = { item: item.value };
       this.router.navigate(['/edit', index], { queryParams });
@@ -105,7 +114,9 @@ export class TodoListComponent {
   }
   //Feature: Change Language
   onLanguageChange(lang: string) {
-    const selectedLanguage = this.languages.find(language => language.key === lang);
+    const selectedLanguage = this.languages.find(
+      (language) => language.key === lang
+    );
     if (selectedLanguage) {
       this.changeLanguage(selectedLanguage.key);
     }
@@ -122,8 +133,10 @@ export class TodoListComponent {
   }
 
   //delete with index
-  deleteItem(item: { value: string, createdAt: Date }) {
-    const index = this.listItems.findIndex(listItem => listItem.value === item.value);
+  deleteItem(item: { value: string; createdAt: Date }) {
+    const index = this.listItems.findIndex(
+      (listItem) => listItem.value === item.value
+    );
     if (index > -1) {
       this.listItems.splice(index, 1);
       this.dataSource.data = this.listItems;
@@ -134,4 +147,17 @@ export class TodoListComponent {
     const queryParams: Params = { value: null, createdAt: null };
     this.router.navigate([], { queryParams });
   }
+
+  getUserData() {
+    return this.userService.getUser();
+  }
+
+  setUserData(user: any) {
+    this.userService.setUser(user);
+  }
+
+  logout() {
+    this.router.navigate(['/login']);
+  }
+  
 }
