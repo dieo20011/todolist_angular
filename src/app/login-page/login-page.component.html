@@ -1,0 +1,30 @@
+<body>
+  <div class="wrapper">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="logo">
+        <img src="../../assets/icon.png" alt="" />
+      </div>
+      <h1>Sign In</h1>
+      <div class="input-box">
+        <input type="text" formControlName="email" required />
+        <span>Email</span>
+      </div>
+      <div class="input-box">
+        <input type="password" formControlName="password" required />
+        <span>Password</span>
+      </div>
+      <div *ngIf="loginError" class="error-message">
+        Invalid email or password. Please try again.
+      </div>
+      <button type="submit" class="btn">Login</button>
+      <div class="register-link">
+        <p>Don't have an account? <a routerLink="/register">Register</a></p>
+      </div>
+      <div class="group-icon">
+        <i class="bx bxl-instagram-alt"></i>
+        <i class="bx bxl-twitter"></i>
+        <i class="bx bxl-facebook-square"></i>
+      </div>
+    </form>
+  </div>
+</body>

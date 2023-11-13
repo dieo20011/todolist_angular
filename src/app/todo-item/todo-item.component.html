@@ -1,3 +1,26 @@
-<div class="todo_item">
-    <span class="title">{{title}}</span>
+<div class="todo-container">
+  <h1 class="title">{{'TODO_LIST.TODO' | translate}}</h1>
+  <form [formGroup]="todoForm" >
+    <mat-form-field class="example-full-width">
+      <input matInput class="input_todo" type="text" placeholder="Enter a new item" formControlName="newItem"
+      [ngClass]="{'error': todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty) }" />
+      <mat-error *ngIf="todoForm.get('newItem')?.invalid && (todoForm.get('newItem')?.touched || todoForm.get('newItem')?.dirty)">
+        <small *ngIf="todoForm.get('newItem')?.errors?.['required']" class="error-text">
+          Please enter a value  
+        </small>
+        <small *ngIf="todoForm.get('newItem')?.errors?.['whitespace']" class="error-text">
+          Invalid input
+        </small>
+      </mat-error>
+    </mat-form-field>
+    <div class="button_input">
+      <button mat-raised-button color="primary" type="button" (click)="addItems()" [disabled]="todoForm.invalid " *ngIf="!isUpdating" >
+        {{'TODO_LIST.ADD' |translate}}
+      </button>
+      <button mat-raised-button color="primary" (click)="updateItem()" type="button" [disabled]="todoForm.invalid"  *ngIf="isUpdating" >
+        {{'TODO_LIST.UPDATE' | translate}}
+      </button>
+      <button mat-raised-button color="accent" type="button" (click)="goBack()">{{'TODO_LIST.CANCEL' |translate}}</button>
+    </div>
+  </form>
 </div>

@@ -1,74 +1,101 @@
-.todo-container{
-    max-width: 400px;
-    margin: 0 auto;
-    .title{
-        text-align: center;
-    }
-    ul,li{
-        list-style-type: none;
-        
-    }
-    .list {
-      display: flex;
-      align-items: center;
-      border: 1px solid gray;
-      border-left: 5px solid blue;
-      border-right: 5px solid blue;
-      margin-bottom: 5px;
-    }
-    
-    .list-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      padding: 20px;
-      font-size: 18px;
-    }
-    
-    .buttons {
-      display: flex;
-      gap: 10px;
-    }
-    .buttons button{
-      font-size: 16px;
-      padding: 8px 12px;
-    }
-    .buttons .button_edit{
-      background-color: green;
-      border: none;
-      border-radius: 5px;
-      color: white;
-    }
-    .buttons .button_delete{
-      background-color: red;
-      border: none;
-      border-radius: 5px;
-      color: white
-    }
+.todo-container {
+  max-width: 500px;
+  margin: 0 auto;
 }
-form {
-    display: flex;
-    margin-bottom: 10px;
-  }
-  
-  input {
-    padding: 5px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .input_container{
-    flex-grow: 1;
-  }
-  button {
-    margin-left: 5px;
-    z-index: 1000;
-  }
+.todo-container .title {
+  text-align: center;
+}
+.button_group{
+  display: flex;
+  gap:10px
+}
 
-  .error {
-    border: 1px solid red;
-  }
+.button_input{
+  display: flex;
+  gap:20px
+}
+.header{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.language,
+.header {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.language {
+  margin-bottom: 10px;
+}
+
+.header {
+  margin-top: 5px;
+}
+
+.mat-form-field {
+  margin-right: 10px;
+}
+
+.mat-mini-fab {
+  margin-right: 5px;
+}
+.header input {
+  flex: 1;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.header button {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+}
+
+table{
+  background-color: white;
+  color: black;
+  padding:10px 0 10px 0;
+  border-radius: 5px;
   
-  .error-text {
-    color: red;
+}
+table mat-row, table mat-header-row{
+  color: black;
+  border-bottom: 1px solid #888;
+}
+table mat-row{
+  padding-block: 5px;
+}
+table mat-row:last-child{
+  border-bottom: none;
+}
+ng-container{
+  background-color: red;
+}
+.user-info{
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  span{
+    border: 1px solid green;
+    background-color: transparent;
+    padding: 10px 10px;
+    border-radius: 10px;
+    color: white;
   }
+}

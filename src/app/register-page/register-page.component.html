@@ -1,0 +1,79 @@
+<body>
+  <div class="wrapper">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="logo">
+        <img src="../../assets/icon.png" alt="" />
+      </div>
+      <h1>Sign Up</h1>
+      <div class="input-box">
+        <input type="text" formControlName="email" required />
+        <span>Email</span>
+        <div
+          *ngIf="
+            getFormControl('email')?.invalid &&
+            (getFormControl('email')?.dirty || getFormControl('email')?.touched)
+          "
+        >
+          <div
+            *ngIf="getFormControl('email')?.errors?.['required']"
+            class="error-text"
+          >
+            Email is required.
+          </div>
+          <div
+            *ngIf="getFormControl('email')?.errors?.['email']"
+            class="error-text"
+          >
+            Please enter a valid email address.
+          </div>
+        </div>
+      </div>
+      <div class="input-box">
+        <input type="text" formControlName="username" required />
+        <span>UserName</span>
+        <div
+          *ngIf="
+            getFormControl('username')?.invalid &&
+            (getFormControl('username')?.dirty ||
+              getFormControl('username')?.touched)
+          "
+        >
+          <div
+            *ngIf="getFormControl('username')?.errors?.['required']"
+            class="error-text"
+          >
+            UserName is required.
+          </div>
+        </div>
+      </div>
+      <div class="input-box">
+        <input type="password" formControlName="password" required />
+        <span>Password</span>
+        <div
+          *ngIf="
+            getFormControl('password')?.invalid &&
+            (getFormControl('password')?.dirty ||
+              getFormControl('password')?.touched)
+          "
+        >
+          <div
+            *ngIf="getFormControl('password')?.errors?.['required']"
+            class="error-text"
+          >
+            Password is required.
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Sign up</button>
+      <div class="register-link">
+        <p>Already have an account? <a href="#">Sign in</a></p>
+      </div>
+      <div class="group-icon">
+        <i class="bx bxl-instagram-alt"></i>
+        <i class="bx bxl-twitter"></i>
+        <i class="bx bxl-facebook-square"></i>
+      </div>
+    </form>
+  </div>
+</body>
